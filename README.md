@@ -25,7 +25,7 @@
 </br>
 
 ## 3. ERD 설계
-![캡처](https://user-images.githubusercontent.com/48014869/180605099-0a1a70d3-22c3-4f02-877e-e3ac675d6f67.PNG)
+![image](https://user-images.githubusercontent.com/48014869/180640245-3bbfe500-8dfe-4390-ba38-ec3c27d408c6.png)
 
 ## 4. 핵심 기능
 이 서비스의 핵심 기능은 실시간으로 나의 자세를 피드백을 받을 수 있습니다.
@@ -50,8 +50,7 @@
 
 
 ### 4.3. Controller
-
-![](https://zuminternet.github.io/images/portal/post/2019-04-22-ZUM-Pilot-integer/flow_controller.png)
+![image](https://user-images.githubusercontent.com/48014869/180640151-e47dca23-eb4b-4857-bcea-05682e836c68.png)
 
 - **요청 처리** :pushpin: 
   - Controller에서는 요청을 화면단에서 넘어온 요청을 받고, 동시에 비지니스 로직을 수행합니다.
