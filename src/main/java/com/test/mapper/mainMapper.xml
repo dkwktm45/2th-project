@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.mainMapper">
+  
+	
+	<select id="memberLogin" parameterType ="com.test.mapper.guest" resultType="com.test.mapper.guest">
+		SELECT *
+		FROM users
+		WHERE user_id = #{user_id}
+		AND user_gym = #{user_gym}
+	</select>
+	
+	<select id="adminList" parameterType ="com.test.mapper.guest" resultType="com.test.mapper.guest">
+		SELECT *
+		FROM users
+		WHERE manager_yn = 0
+	</select>
+	
+	<select id="ALLVideo" resultType="com.test.mapper.videoDT">
+		SELECT *
+		FROM exercise_videos
+	</select>
+
+	
+	<select id="memberName" resultType="com.test.mapper.guest">
+		SELECT user_name
+		FROM users
+		where user_id = (select user_id
+							from exercise_videos
+							where video_seq = #{video_seq})
+	</select>
+	
+	<insert id="insertEx" parameterType="com.test.mapper.exinfo">
+	   INSERT INTO user_exercises (user_id, ex_name, ex_kinds,ex_date,user_set,ex_count)
+	   VALUES ( 
+	      #{user_id}, 
+	      #{ex_name}, 
+	      #{ex_kinds},
+	      now(),
+	      #{user_set},
+	      #{ex_count}
+	   )
+	   
+	</insert>
+	
+	<update id="inertCNT" parameterType="com.test.mapper.exinfo">
+	   update user_exercises
+	   set cnt = #{cnt}
+	   where ex_seq=#{ex_seq}
+	</update>
+	
+	<update id="insertURL" parameterType="com.test.mapper.videoDT">
+	   update exercise_videos 
+	   set file_name = #{file_name},user_id = #{user_id}, video_date = now()
+	   where ex_seq = #{ex_seq}
+	</update>
+
+	<insert id="insertDeep" parameterType="com.test.mapper.exinfo">
+	   INSERT INTO exercise_videos (video_seq, ex_seq)
+	   VALUES ( DEFAULT, #{ex_seq})
+	</insert>
+	
+	<select id="selectEx" resultType="com.test.mapper.exinfo">
+	    SELECT * FROM user_exercises where user_id= #{user_id} and ex_name = #{ex_name} order by ex_date desc LIMIT 1
+	</select>
+	
+	<select id="memberVideo" resultType="com.test.mapper.videoDT" parameterType ="String">
+		SELECT file_name, video_seq , user_id ,video_date
+		FROM exercise_videos
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="dateVideo" resultType="com.test.mapper.videoDT" parameterType ="String">
+		SELECT file_name, video_seq , user_id ,video_date
+		FROM exercise_videos
+		WHERE user_id = #{user_id}
+		and video_date = #{video_date}
+	</select>
+	
+	<update id="insertbadImage"  parameterType ="hashmap">
+	    insert into deep_Postures(deep_seq , video_seq , pose_result , ai_comment)
+	    value (default ,(select video_seq from exercise_videos where ex_seq = #{ex_seq}),
+	    #{pose_result}, #{ai_comment})
+	</update>
+	
+	
+	
+	<select id="memberExinfo" resultType="com.test.mapper.exinfo" parameterType ="com.test.mapper.exinfo" >
+		select user_id , ex_kinds
+		from user_exercises
+		where user_id=#{user_id}
+	</select>
+	
+	<select id="selectVideo" resultType="com.test.mapper.deepPostures" parameterType ="int" >
+		select pose_result , ai_comment
+		from deep_postures
+		where video_seq= #{video_seq}
+	</select>
+	
+	<update  id="extensionMember" parameterType ="com.test.mapper.guest" >
+	    update users set user_expire_date = DATE_ADD(user_expire_date, INTERVAL #{month} MONTH)
+	    where user_id = #{user_id}
+	</update>
+	
+	<insert  id="insertJoin" parameterType ="com.test.mapper.guest" >
+	    insert into users(user_id,user_phone, user_name,user_gym,user_expire_date,user_birthdate,manager_yn)
+	    values (right(#{user_phone},4),#{user_phone},#{user_name},#{user_gym}, date_add(DATE_FORMAT(now(),'%Y-%m-%d'),INTERVAL #{user_expire_date} MONTH) ,#{user_birthdate},0)
+	</insert>
+	
+	<select id ="infoCalender" parameterType ="com.test.mapper.accessController" resultType="com.test.mapper.accessController">
+		select u.user_weight,a.ex_day, a.user_id , TIMESTAMPDIFF(minute, a.ex_start_time , a.ex_end_time) as timediff
+	    from access a , users u 
+	    where a.user_id = #{user_id} and u.user_id = #{user_id}
+	</select>
+	
+	
+	<select id ="calendarView" parameterType ="String" resultType="com.test.mapper.exinfo">
+		select *
+		from user_exercises
+		where user_id = #{user_id}
+		and ex_date = #{ex_date}
+	</select>
+</mapper>
