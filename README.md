@@ -111,7 +111,7 @@
 
 ## 6 .기획 및 설계
 #### 6.1 서비스 흐름도
-![image](https://user-images.githubusercontent.com/48014869/189869632-23b14def-7bb8-40d2-8df2-20afb3b84e54.png)
+![image](https://user-images.githubusercontent.com/48014869/195770200-d38241c8-782c-46cd-893b-25c03566ef00.png)
 
 
 #### 6.2 유스케이스 다이어그램
