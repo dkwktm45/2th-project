@@ -56,9 +56,6 @@ public class Restmember {
     	String file_name = Double.toString((randomValue*100)+1);
     	FileOutputStream out = new FileOutputStream(new File("C:\\Users\\SMHRD2\\project2\\"+file_name+".webm"));
     	
-    	
-    	
-    	
         byte[] charBuffer = new byte[128];
         
         int bytesRead = -1;
