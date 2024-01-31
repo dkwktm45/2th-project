@@ -39,25 +39,16 @@ public class Restmember {
 	
 	@Inject
 	private mainMapper mapper;
-	
-	
-    
 
-	
 	@RequestMapping(value="/insertExURL.do", method= {RequestMethod.GET, RequestMethod.POST})
     public String insertURL(HttpServletRequest request) throws Exception {
 		
-    	//String fileName = file.getOriginalFilename();
-    	//System.out.print(request.getParameter("data"));
     	System.out.println("저장할려는중");
-    	//System.out.println(request.getParameter("cnt"));
     	String cnt = request.getParameter("cnt");
     	String user_id =  request.getParameter("user_id");
     	
     	int ex_seq = Integer.parseInt(request.getParameter("ex_seq"));
     	
-    	//System.out.println(ex_seq);
-    	//System.out.println(user_id);
     	ServletInputStream input = request.getInputStream();
 
     	
@@ -72,14 +63,12 @@ public class Restmember {
         
         int bytesRead = -1;
         while ((bytesRead = input.read(charBuffer)) > 0) {
-        	//System.out.println("저장중");
         	out.write(charBuffer, 0, bytesRead);
         }
     	
     	input.close();
     	out.close();
-    	
-    	System.out.println("저장 끝");
+
     	mapper.inertCNT(cnt , ex_seq);
         mapper.insertURL(user_id,ex_seq,file_name);
 		return "main.do";
